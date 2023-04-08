@@ -8,9 +8,6 @@ label <- BR3_meta[ , ncol(BR3_meta), drop = FALSE]
 ChemoResponse <- ifelse(label$ChemoResponse == "Sensitive",1,0)
 BR3 <- cbind(ChemoResponse, BR3)
 
-# Take a look at the expected input structure
-dim(BR3)
-BR3[1:5,1:5]
 
 # Basic usage
 svmRFE(BR3, k=10, halve.above=500)
