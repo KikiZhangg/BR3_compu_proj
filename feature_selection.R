@@ -17,27 +17,27 @@ svmRFE(BR3, k=10, halve.above=500)
 
 # Set up cross validation
 nfold = 10
-nrows = nrow(input)
+nrows = nrow(BR3)
 folds = rep(1:nfold, len=nrows)[sample(nrows)]
 folds
 folds = lapply(1:nfold, function(x) which(folds == x))
 folds
 
 # Perform feature ranking on all training sets
-results = lapply(folds, svmRFE.wrap, input, k=10, halve.above=100)
+results = lapply(folds, svmRFE.wrap, BR3, k=10, halve.above=100)
 length(results)
 results
 
 # Obtain top features across ALL folds
-top.features = WriteFeatures(results, input, save=F)
+top.features = WriteFeatures(results, BR3, save=F)
 head(top.features)
 
 # Estimate generalization error using a varying number of top features
-featsweep = lapply(1:5, FeatSweep.wrap, results, input)
+featsweep = lapply(1:5, FeatSweep.wrap, results, BR3)
 featsweep
 
 # Make plot
-no.info = min(prop.table(table(input[,1])))
+no.info = min(prop.table(table(BR3[,1])))
 errors = sapply(featsweep, function(x) ifelse(is.null(x), NA, x$error))
 
 dev.new(width=4, height=4, bg='white')
